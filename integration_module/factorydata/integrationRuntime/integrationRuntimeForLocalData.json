@@ -1,0 +1,7 @@
+{
+	"name": "integrationRuntimeForLocalData",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "maminederkaoui, created to access data locally (databases or system files)"
+	}
+}
