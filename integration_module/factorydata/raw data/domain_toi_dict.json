@@ -1,0 +1,181 @@
+{
+    "domain_name": "domainXY",
+    "domain_description": "desc xy",
+    "file_type": "csv",
+    "delimiter_type": ",",
+    "dimensions": [
+        {
+            "name": "dateOrder",
+            "description": "",
+            "isDate_dimension": true,
+            "originale_date_pk": "Order Date",
+            "attributes": [
+                {
+                    "name": "Date",
+                    "type": "Date",
+                    "description": "date de demarrage du fait",
+                    "date_d": 0,
+                    "isPK": 1
+                },
+                {
+                    "name": "Numero du jour",
+                    "type": "Integer",
+                    "description": "numero du jour de la semaine",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Jour de la semaine",
+                    "type": "String",
+                    "description": "nom du jour de la semaine",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Semaine",
+                    "type": "Integer",
+                    "description": "numero de la semaine",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Semestre",
+                    "type": "Integer",
+                    "description": "numero du semestre",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Trimestre",
+                    "type": "Integer",
+                    "description": "numero du trimestre",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Numero du mois",
+                    "type": "Integer",
+                    "description": "numero du mois",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Nom du mois",
+                    "type": "String",
+                    "description": "nom du mois",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Annee",
+                    "type": "Integer",
+                    "description": "numero de l annee",
+                    "date_d": 0,
+                    "isPK": 0
+                }
+            ]
+        },
+        {
+            "name": "dateShip",
+            "description": "",
+            "isDate_dimension": false,
+            "originale_date_pk": "",
+            "attributes": [
+                {
+                    "name": "Ship Date",
+                    "type": "String",
+                    "description": "",
+                    "date_d": 0,
+                    "isPK": 1
+                },
+                {
+                    "name": "Date insertion",
+                    "type": "Date",
+                    "description": "date d insertion en base",
+                    "date_d": 1,
+                    "isPK": 0
+                },
+                {
+                    "name": "Date de fin de validite",
+                    "type": "Date",
+                    "description": "date de fin de validite en base",
+                    "date_d": 1,
+                    "isPK": 0
+                },
+                {
+                    "name": "Flag actif",
+                    "type": "integer",
+                    "description": "flag pour savoir si cette fiche ressource est toujours active",
+                    "date_d": 1,
+                    "isPK": 0
+                }
+            ]
+        },
+        {
+            "name": "Cust",
+            "description": "",
+            "isDate_dimension": false,
+            "originale_date_pk": "",
+            "attributes": [
+                {
+                    "name": "Customer ID",
+                    "type": "String",
+                    "description": "",
+                    "date_d": 0,
+                    "isPK": 1
+                },
+                {
+                    "name": "Customer Name",
+                    "type": "String",
+                    "description": "",
+                    "date_d": 0,
+                    "isPK": 0
+                },
+                {
+                    "name": "Date insertion",
+                    "type": "Date",
+                    "description": "date d insertion en base",
+                    "date_d": 1,
+                    "isPK": 0
+                },
+                {
+                    "name": "Date de fin de validite",
+                    "type": "Date",
+                    "description": "date de fin de validite en base",
+                    "date_d": 1,
+                    "isPK": 0
+                },
+                {
+                    "name": "Flag actif",
+                    "type": "integer",
+                    "description": "flag pour savoir si cette fiche ressource est toujours active",
+                    "date_d": 1,
+                    "isPK": 0
+                }
+            ]
+        }
+    ],
+    "measures": [
+        {
+            "description": "",
+            "type": "BIGDECIMAL",
+            "name": "Sales",
+            "aggregation": "sum"
+        },
+        {
+            "description": "",
+            "type": "BIGDECIMAL",
+            "name": "Quantity",
+            "aggregation": "sum"
+        }
+    ],
+    "chosen_output_db": {
+        "typeDB": "MySQL",
+        "connexion_name": "DaTaObS",
+        "hostname": "10.75.5.2",
+        "port": 3306,
+        "schema": "schema",
+        "username": "usertoa",
+        "password": "trimane*2011!"
+    }
+}
