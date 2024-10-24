@@ -25,6 +25,12 @@
 				},
 				{
 					"name": "flattenDimensionsAttributes"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -57,18 +63,23 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsArray",
-				"flattenDimensionsAttributes split(dim_name.isDate_dimension == true(),",
-				"     dim_name.isDate_dimension != true(),",
+				"flattenDimensionsAttributes split(isDate_dimension == true(),",
+				"     isDate_dimension != true(),",
 				"     disjoint: false) ~> splitDateDimensions@(isDateDimension, isNotDateDimension)",
-				"flattenDimensionsArray foldDown(unroll(dimensions.attributes),",
+				"flattenDimensionsArray foldDown(unroll(dimensions.attributes, dimensions.attributes),",
 				"     mapColumn(",
-				"          dimensions = dimensions.name,",
-				"          attributes = dimensions.attributes,",
+				"          dimension_name = dimensions.name,",
 				"          isDate_dimension = dimensions.isDate_dimension,",
-				"          originale_date_pk = dimensions.originale_date_pk",
+				"          originale_date_pk = dimensions.originale_date_pk,",
+				"          attribute_name = dimensions.attributes.name,",
+				"          isPK = dimensions.attributes.isPK,",
+				"          type = dimensions.attributes.type",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsAttributes"
+				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsAttributes",
+				"aggregate1 derive(AttributeList = iif(attributes.isPK == true(), attributes.name + ', ', '') + iif(attributes.isPK == false(), attributes.name, '')) ~> derivedColumn1",
+				"splitDateDimensions@isNotDateDimension aggregate(groupBy(dimensions),",
+				"     AttributeList = union(     collect(filter(attributes, item.isPK == true()), item.name),     collect(filter(attributes, item.isPK == false()), item.name) )) ~> aggregate1"
 			]
 		}
 	}
