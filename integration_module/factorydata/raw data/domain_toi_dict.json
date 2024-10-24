@@ -87,27 +87,6 @@
                     "description": "",
                     "date_d": 0,
                     "isPK": 1
-                },
-                {
-                    "name": "Date insertion",
-                    "type": "Date",
-                    "description": "date d insertion en base",
-                    "date_d": 1,
-                    "isPK": 0
-                },
-                {
-                    "name": "Date de fin de validite",
-                    "type": "Date",
-                    "description": "date de fin de validite en base",
-                    "date_d": 1,
-                    "isPK": 0
-                },
-                {
-                    "name": "Flag actif",
-                    "type": "integer",
-                    "description": "flag pour savoir si cette fiche ressource est toujours active",
-                    "date_d": 1,
-                    "isPK": 0
                 }
             ]
         },
@@ -129,27 +108,6 @@
                     "type": "String",
                     "description": "",
                     "date_d": 0,
-                    "isPK": 0
-                },
-                {
-                    "name": "Date insertion",
-                    "type": "Date",
-                    "description": "date d insertion en base",
-                    "date_d": 1,
-                    "isPK": 0
-                },
-                {
-                    "name": "Date de fin de validite",
-                    "type": "Date",
-                    "description": "date de fin de validite en base",
-                    "date_d": 1,
-                    "isPK": 0
-                },
-                {
-                    "name": "Flag actif",
-                    "type": "integer",
-                    "description": "flag pour savoir si cette fiche ressource est toujours active",
-                    "date_d": 1,
                     "isPK": 0
                 }
             ]
