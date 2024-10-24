@@ -15,39 +15,48 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "selectDimensionsField"
 				},
 				{
-					"name": "MapDrifted1",
-					"description": "Creates an explicit mapping for each drifted column"
+					"name": "flattenDimensionsArray"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "splitDateDimensions"
 				}
 			],
 			"scriptLines": [
-				"source(useSchema: false,",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"source(output(",
+				"          chosen_output_db as (connexion_name as string, hostname as string, password as string, port as short, schema as string, typeDB as string, username as string),",
+				"          delimiter_type as string,",
+				"          dimensions as (attributes as (date_d as boolean, description as string, isPK as boolean, name as string, type as string)[], description as string, isDate_dimension as boolean, name as string, originale_date_pk as string)[],",
+				"          domain_description as string,",
+				"          domain_name as string,",
+				"          file_type as string,",
+				"          measures as (aggregation as string, description as string, name as string, type as string)[]",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'json',",
 				"     fileSystem: 'hqfolder',",
 				"     folderPath: 'source',",
 				"     fileName: 'dict.json',",
 				"     documentForm: 'singleDocument') ~> dictionnary",
-				"MapDrifted1 select(mapColumn(",
-				"          each(match(dimensions),",
-				"               dimensions = $$)",
+				"dictionnary select(mapColumn(",
+				"          dimensions = dimensions",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"derivedColumn1 derive(delimiter_type = toString(byName('delimiter_type')),",
-				"          dimensions = toArray(byName('dimensions')),",
-				"          domain_description = toString(byName('domain_description')),",
-				"          domain_name = toString(byName('domain_name')),",
-				"          file_type = toString(byName('file_type')),",
-				"          measures = toArray(byName('measures'))) ~> MapDrifted1",
-				"dictionnary derive() ~> derivedColumn1"
+				"     skipDuplicateMapOutputs: true) ~> selectDimensionsField",
+				"selectDimensionsField foldDown(unroll(dimensions),",
+				"     mapColumn(",
+				"          dimensions",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsArray",
+				"flattenDimensionsArray split(dimensions.isDate_dimension == true(),",
+				"     dimensions.isDate_dimension != true(),",
+				"     disjoint: false) ~> splitDateDimensions@(isDateDimension, isNotDateDimension)"
 			]
 		}
 	}
