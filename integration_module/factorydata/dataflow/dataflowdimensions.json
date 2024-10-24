@@ -12,11 +12,7 @@
 					"name": "dictionnary"
 				}
 			],
-			"sinks": [
-				{
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "selectDimensionsField"
@@ -79,11 +75,7 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsAttributes",
 				"splitDateDimensions@isNotDateDimension aggregate(groupBy(dimension_name),",
-				"     AttributesList = collect(attribute_name)) ~> aggregate1",
-				"aggregate1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     AttributesList = collect(attribute_name)) ~> aggregate1"
 			]
 		}
 	}
