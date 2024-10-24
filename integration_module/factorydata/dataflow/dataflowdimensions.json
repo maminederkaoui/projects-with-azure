@@ -22,6 +22,9 @@
 				},
 				{
 					"name": "splitDateDimensions"
+				},
+				{
+					"name": "flattenDimensionsAttributes"
 				}
 			],
 			"scriptLines": [
@@ -54,9 +57,18 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsArray",
-				"flattenDimensionsArray split(dimensions.isDate_dimension == true(),",
-				"     dimensions.isDate_dimension != true(),",
-				"     disjoint: false) ~> splitDateDimensions@(isDateDimension, isNotDateDimension)"
+				"flattenDimensionsAttributes split(dim_name.isDate_dimension == true(),",
+				"     dim_name.isDate_dimension != true(),",
+				"     disjoint: false) ~> splitDateDimensions@(isDateDimension, isNotDateDimension)",
+				"flattenDimensionsArray foldDown(unroll(dimensions.attributes),",
+				"     mapColumn(",
+				"          dimensions = dimensions.name,",
+				"          attributes = dimensions.attributes,",
+				"          isDate_dimension = dimensions.isDate_dimension,",
+				"          originale_date_pk = dimensions.originale_date_pk",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsAttributes"
 			]
 		}
 	}
