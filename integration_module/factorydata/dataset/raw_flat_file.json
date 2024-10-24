@@ -1,0 +1,26 @@
+{
+	"name": "raw_flat_file",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "raw_data",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "httpSource"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "data.csv"
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": null
+		},
+		"schema": []
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"name": "dictionnary",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "raw_data",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "httpSource"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "domain_toi_dict.json"
+			}
+		},
+		"schema": {}
+	}
+}
