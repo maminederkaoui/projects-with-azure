@@ -1,25 +1,26 @@
 {
-	"name": "raw_flat_file",
+	"name": "raw_csv",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "raw_data",
+			"referenceName": "adls2hqfolder",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "httpSource"
+			"name": "source"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "HttpServerLocation",
-				"relativeUrl": "data.csv"
+				"type": "AzureBlobFSLocation",
+				"fileName": "raw_csv.csv",
+				"folderPath": "source",
+				"fileSystem": "hqfolder"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": "\n",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": null
+			"quoteChar": "\""
 		},
 		"schema": []
 	}

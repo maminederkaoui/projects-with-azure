@@ -1,0 +1,45 @@
+{
+	"name": "dataflowdimensions",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "raw_flat_file",
+						"type": "DatasetReference"
+					},
+					"name": "rawCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "dictionnary",
+						"type": "DatasetReference"
+					},
+					"name": "dictionnary"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "filterDateDimension"
+				},
+				{
+					"name": "selectDimensionsDict"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> rawCSV",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> dictionnary",
+				"selectDimensionsDict filter(ERROR_FUNCTION('')) ~> filterDateDimension",
+				"dictionnary select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectDimensionsDict"
+			]
+		}
+	}
+}

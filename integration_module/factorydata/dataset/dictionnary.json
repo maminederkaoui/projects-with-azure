@@ -1,5 +1,5 @@
 {
-	"name": "raw_flat_file",
+	"name": "dictionnary",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "raw_data",
@@ -9,18 +9,13 @@
 			"name": "httpSource"
 		},
 		"annotations": [],
-		"type": "DelimitedText",
+		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "data.csv"
-			},
-			"columnDelimiter": ",",
-			"rowDelimiter": "\n",
-			"escapeChar": "\\",
-			"firstRowAsHeader": true,
-			"quoteChar": null
+				"relativeUrl": "domain_toi_dict.json"
+			}
 		},
-		"schema": []
+		"schema": {}
 	}
 }

@@ -1,0 +1,23 @@
+{
+	"name": "dict",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adls2hqfolder",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "source"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "dict.json",
+				"folderPath": "source",
+				"fileSystem": "hqfolder"
+			}
+		},
+		"schema": {}
+	}
+}
