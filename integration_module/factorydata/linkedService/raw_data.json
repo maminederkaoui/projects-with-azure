@@ -1,0 +1,12 @@
+{
+	"name": "raw_data",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/maminederkaoui/projects-with-azure/refs/heads/main/integration_module/factorydata/raw%20data/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

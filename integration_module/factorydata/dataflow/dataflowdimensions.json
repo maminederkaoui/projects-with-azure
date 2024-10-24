@@ -1,0 +1,54 @@
+{
+	"name": "dataflowdimensions",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "adls2hqfolder",
+						"type": "LinkedServiceReference"
+					},
+					"name": "dictionnary"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'json',",
+				"     fileSystem: 'hqfolder',",
+				"     folderPath: 'source',",
+				"     fileName: 'dict.json',",
+				"     documentForm: 'singleDocument') ~> dictionnary",
+				"MapDrifted1 select(mapColumn(",
+				"          each(match(dimensions),",
+				"               dimensions = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"derivedColumn1 derive(delimiter_type = toString(byName('delimiter_type')),",
+				"          dimensions = toArray(byName('dimensions')),",
+				"          domain_description = toString(byName('domain_description')),",
+				"          domain_name = toString(byName('domain_name')),",
+				"          file_type = toString(byName('file_type')),",
+				"          measures = toArray(byName('measures'))) ~> MapDrifted1",
+				"dictionnary derive() ~> derivedColumn1"
+			]
+		}
+	}
+}
