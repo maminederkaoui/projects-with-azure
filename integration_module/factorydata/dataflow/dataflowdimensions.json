@@ -5,16 +5,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "raw_flat_file",
-						"type": "DatasetReference"
-					},
-					"name": "rawCSV"
-				},
-				{
-					"dataset": {
-						"referenceName": "dictionnary",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "adls2hqfolder",
+						"type": "LinkedServiceReference"
 					},
 					"name": "dictionnary"
 				}
@@ -22,23 +15,39 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "filterDateDimension"
+					"name": "select1"
 				},
 				{
-					"name": "selectDimensionsDict"
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> rawCSV",
-				"source(allowSchemaDrift: true,",
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> dictionnary",
-				"selectDimensionsDict filter(ERROR_FUNCTION('')) ~> filterDateDimension",
-				"dictionnary select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectDimensionsDict"
+				"     format: 'json',",
+				"     fileSystem: 'hqfolder',",
+				"     folderPath: 'source',",
+				"     fileName: 'dict.json',",
+				"     documentForm: 'singleDocument') ~> dictionnary",
+				"MapDrifted1 select(mapColumn(",
+				"          each(match(dimensions),",
+				"               dimensions = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"derivedColumn1 derive(delimiter_type = toString(byName('delimiter_type')),",
+				"          dimensions = toArray(byName('dimensions')),",
+				"          domain_description = toString(byName('domain_description')),",
+				"          domain_name = toString(byName('domain_name')),",
+				"          file_type = toString(byName('file_type')),",
+				"          measures = toArray(byName('measures'))) ~> MapDrifted1",
+				"dictionnary derive() ~> derivedColumn1"
 			]
 		}
 	}
