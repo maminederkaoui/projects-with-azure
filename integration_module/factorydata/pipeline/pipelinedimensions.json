@@ -25,20 +25,8 @@
 					},
 					"traceLevel": "Fine"
 				}
-			},
-			{
-				"name": "ForEach1",
-				"type": "ForEach",
-				"dependsOn": [],
-				"userProperties": []
 			}
 		],
-		"parameters": {
-			"attributeslists": {
-				"type": "array",
-				"defaultValue": []
-			}
-		},
 		"variables": {
 			"attrlists": {
 				"type": "Array"
