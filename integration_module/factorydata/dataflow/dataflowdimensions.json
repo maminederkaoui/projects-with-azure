@@ -12,7 +12,11 @@
 					"name": "dictionnary"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sinkTempVar"
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectDimensionsField"
@@ -50,7 +54,7 @@
 				"     fileName: 'dict.json',",
 				"     documentForm: 'singleDocument') ~> dictionnary",
 				"dictionnary select(mapColumn(",
-				"          dimensions = dimensions",
+				"          dimensions",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectDimensionsField",
@@ -75,7 +79,12 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenDimensionsAttributes",
 				"splitDateDimensions@isNotDateDimension aggregate(groupBy(dimension_name),",
-				"     AttributesList = collect(attribute_name)) ~> aggregate1"
+				"     AttributesList = collect(attribute_name)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1) ~> sinkTempVar"
 			]
 		}
 	}
