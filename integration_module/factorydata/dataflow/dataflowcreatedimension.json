@@ -7,7 +7,11 @@
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
-				""
+				"parameters{",
+				"     dimension_name as string (\"\"),",
+				"     AttributesList as string[] ([\"\"]),",
+				"     LookupRawCSV as string[] ([\"\"])",
+				"}"
 			]
 		}
 	}
