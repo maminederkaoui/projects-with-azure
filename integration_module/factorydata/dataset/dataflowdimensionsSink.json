@@ -1,0 +1,23 @@
+{
+	"name": "dataflowdimensionsSink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adls2hqfolder",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "temporary"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "dataflowsink1.json",
+				"folderPath": "temporary",
+				"fileSystem": "hqfolder"
+			}
+		},
+		"schema": {}
+	}
+}

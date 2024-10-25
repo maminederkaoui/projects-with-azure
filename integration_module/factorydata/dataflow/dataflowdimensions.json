@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "dataflowdimensionsSink",
+						"type": "DatasetReference"
+					},
 					"name": "sinkTempVar"
 				}
 			],
@@ -82,9 +86,14 @@
 				"     AttributesList = collect(attribute_name)) ~> aggregate1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['dataflowsink1.json'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> sinkTempVar"
+				"     saveOrder: 1,",
+				"     partitionBy('hash', 1)) ~> sinkTempVar"
 			]
 		}
 	}
