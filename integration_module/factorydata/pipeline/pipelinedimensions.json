@@ -143,6 +143,10 @@
 										"AttributesList": {
 											"value": "@item().AttributesList",
 											"type": "Expression"
+										},
+										"LookupRawCSV": {
+											"value": "@activity('LookupRawCSV').output.value",
+											"type": "Expression"
 										}
 									}
 								},
