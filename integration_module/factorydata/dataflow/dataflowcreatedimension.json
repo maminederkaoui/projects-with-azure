@@ -3,15 +3,55 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "raw_csv",
+						"type": "DatasetReference"
+					},
+					"name": "sourceRawCSV"
+				}
+			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
 				"parameters{",
 				"     dimension_name as string (\"\"),",
 				"     AttributesList as string[] ([\"\"]),",
 				"     LookupRawCSV as string[] ([\"\"])",
-				"}"
+				"}",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceRawCSV",
+				"sourceRawCSV derive({Order ID} = toString(byName('Order ID')),",
+				"          {Order Date} = toString(byName('Order Date')),",
+				"          {Ship Date} = toString(byName('Ship Date')),",
+				"          {Ship Mode} = toString(byName('Ship Mode')),",
+				"          {Customer ID} = toString(byName('Customer ID')),",
+				"          {Customer Name} = toString(byName('Customer Name')),",
+				"          Segment = toString(byName('Segment')),",
+				"          Country = toString(byName('Country')),",
+				"          City = toString(byName('City')),",
+				"          State = toString(byName('State')),",
+				"          {Postal Code} = toString(byName('Postal Code')),",
+				"          Region = toString(byName('Region')),",
+				"          {Product ID} = toString(byName('Product ID')),",
+				"          Category = toString(byName('Category')),",
+				"          {Sub-Category} = toString(byName('Sub-Category')),",
+				"          {Product Name} = toString(byName('Product Name')),",
+				"          Sales = toString(byName('Sales')),",
+				"          Quantity = toString(byName('Quantity')),",
+				"          Discount = toString(byName('Discount')),",
+				"          Profit = toString(byName('Profit'))) ~> MapDrifted1",
+				"MapDrifted1 derive() ~> derivedColumn1"
 			]
 		}
 	}
