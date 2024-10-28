@@ -51,7 +51,7 @@
 				"          Quantity = toString(byName('Quantity')),",
 				"          Discount = toString(byName('Discount')),",
 				"          Profit = toString(byName('Profit'))) ~> MapDrifted1",
-				"MapDrifted1 derive() ~> derivedColumn1"
+				"MapDrifted1 derive({} = ERROR_FUNCTION('')) ~> derivedColumn1"
 			]
 		}
 	}
