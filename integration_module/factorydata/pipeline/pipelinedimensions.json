@@ -121,8 +121,11 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"functionName": "http_trigger1",
-					"body": "{\n    \"columns\": [\"column1\", \"column2\"],\n    \"file_name\": \"output_file.json\",\n    \"data\": @activity('LookupActivity').output.value\n}\n",
+					"functionName": "filerandloadtable",
+					"body": {
+						"value": "{\n    \"dim&columns\": activity('LookupTempAttrLists').output.value,\n    \"data\": @activity('LookupRawCSV').output.value\n}",
+						"type": "Expression"
+					},
 					"method": "POST"
 				},
 				"linkedServiceName": {

@@ -15,9 +15,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"functionName": "filerandloadtable",
+					"functionName": "http_trigger1",
 					"body": {
-						"value": "{\n    \"name\" : \"Yak\"\n}",
+						"value": "{\n    \"name\" : \"Mick\"\n}",
 						"type": "Expression"
 					},
 					"method": "POST"
