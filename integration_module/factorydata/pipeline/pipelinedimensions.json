@@ -121,15 +121,15 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"functionName": "filerandloadtable",
+					"functionName": "http_trigger1",
 					"body": {
-						"value": "{\n    \"dim&columns\": activity('LookupTempAttrLists').output.value,\n    \"data\": @activity('LookupRawCSV').output.value\n}",
+						"value": "{\n    \"dim&columns\":@activity('LookupTempAttrLists').output.value,\n    \"data\":@activity('LookupRawCSV').output.value,\n    \"name\":\"Potter\"\n}",
 						"type": "Expression"
 					},
 					"method": "POST"
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureFunction1",
+					"referenceName": "AzureFunction3",
 					"type": "LinkedServiceReference"
 				}
 			}
