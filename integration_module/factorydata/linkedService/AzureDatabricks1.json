@@ -1,0 +1,13 @@
+{
+	"name": "AzureDatabricks1",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-1702633008432295.15.azuredatabricks.net",
+			"authentication": "MSI",
+			"workspaceResourceId": "/subscriptions/25505985-f072-4bcc-a0ae-f1f63bf142cb/resourceGroups/integration_module/providers/Microsoft.Databricks/workspaces/db4integration",
+			"existingClusterId": "1030-100336-f7z8a4uv"
+		}
+	}
+}
