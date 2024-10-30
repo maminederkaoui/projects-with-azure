@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "integrationFactoryv1"
+		},
+		"AzureFunction1_functionKey": {
+			"value": ""
+		},
+		"AzureFunction3_functionKey": {
+			"value": ""
+		},
+		"AzureFunctionapp5_functionKey": {
+			"value": ""
+		},
+		"adls2hqfolder_accountKey": {
+			"value": ""
+		},
+		"AzureFunction1_properties_typeProperties_functionAppUrl": {
+			"value": "https://app5integration.azurewebsites.net"
+		},
+		"AzureFunction3_properties_typeProperties_functionAppUrl": {
+			"value": "https://appforintegration.azurewebsites.net"
+		},
+		"AzureFunctionapp5_properties_typeProperties_functionAppUrl": {
+			"value": "https://app5integration.azurewebsites.net"
+		},
+		"adls2hqfolder_properties_typeProperties_url": {
+			"value": "https://adls4integration.dfs.core.windows.net/"
+		},
+		"raw_data_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/maminederkaoui/projects-with-azure/refs/heads/main/integration_module/factorydata/raw%20data/"
+		}
+	}
+}

@@ -1,0 +1,105 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "integrationFactoryv1"
+		},
+		"AzureFunction1_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
+		},
+		"AzureFunction3_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'AzureFunction3'"
+		},
+		"AzureFunctionapp5_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'AzureFunctionapp5'"
+		},
+		"adls2hqfolder_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'adls2hqfolder'"
+		},
+		"AzureFunction1_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://app5integration.azurewebsites.net"
+		},
+		"AzureFunction3_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://appforintegration.azurewebsites.net"
+		},
+		"AzureFunctionapp5_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": "https://app5integration.azurewebsites.net"
+		},
+		"adls2hqfolder_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adls4integration.dfs.core.windows.net/"
+		},
+		"raw_data_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/maminederkaoui/projects-with-azure/refs/heads/main/integration_module/factorydata/raw%20data/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "integrationFactoryv1_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureFunction1_functionKey": {
+						"value": "[parameters('AzureFunction1_functionKey')]"
+					},
+					"AzureFunction3_functionKey": {
+						"value": "[parameters('AzureFunction3_functionKey')]"
+					},
+					"AzureFunctionapp5_functionKey": {
+						"value": "[parameters('AzureFunctionapp5_functionKey')]"
+					},
+					"adls2hqfolder_accountKey": {
+						"value": "[parameters('adls2hqfolder_accountKey')]"
+					},
+					"AzureFunction1_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunction1_properties_typeProperties_functionAppUrl')]"
+					},
+					"AzureFunction3_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunction3_properties_typeProperties_functionAppUrl')]"
+					},
+					"AzureFunctionapp5_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('AzureFunctionapp5_properties_typeProperties_functionAppUrl')]"
+					},
+					"adls2hqfolder_properties_typeProperties_url": {
+						"value": "[parameters('adls2hqfolder_properties_typeProperties_url')]"
+					},
+					"raw_data_properties_typeProperties_url": {
+						"value": "[parameters('raw_data_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
