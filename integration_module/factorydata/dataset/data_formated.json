@@ -1,0 +1,26 @@
+{
+	"name": "data_formated",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adls2hqfolder",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sink"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "sink",
+				"fileSystem": "hqfolder"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
