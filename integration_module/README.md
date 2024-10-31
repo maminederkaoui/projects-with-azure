@@ -1,9 +1,13 @@
-# Tokyo Olympics 2021 data with Azure
+# A generic solution for integrating data into BI datawarehouse using Azure
 ## Introduction
 
-After I got my Azure Data Engineer Associate certification (DP-203) working with Microsoft learn materials, I need to start working on end-to-end projects to develop my skills with Azure and Data Engineering in whole. 
+This project is about developing a generic solution that enables data integration into BI datawarehouses.
 
-This first project gives an simple example on using many tools availbale on Azure on a set of data related to Tokyo Olympics 2021.
+I decided to do this project because :
+- I don't have any existing project to follow. Everything from scratch.
+- It will let me to start mastering different Azure's tools and discover their limitations (especially ADF)
+
+This project is not finished yet. I will keep developing other functionalities.
 
 The tools used are : 
 - Azure Data Factory
@@ -12,78 +16,143 @@ The tools used are :
 - Azure Synapse Analytics
 - Power BI
 
-The original project was done by Kaouthar EL BAKOURI (IBM Data Engineer) (her [medium](https://medium.com/@kwtrelbakouri1)'s profile ), big thanks to her.
-
-Kaouthar did the project from scratch and I mostly followed her steps mentionned on her medium's [blog](https://medium.com/@kwtrelbakouri1/azure-end-to-end-data-engineering-project-harnessing-the-github-student-pack-for-students-and-be61227ccef2). For more details, I recommand you to look at her blog.
-
 Next, a short resume of the main titles of my project
 
 ## Data Architecture
 
 What is the project about ? 
-<br> - Starting with raw data from kaggle's [dataset](https://www.kaggle.com/datasets/arjunprasadsarkhel/2021-olympics-in-tokyo)
-<br> - Azure Data Factory (ADF): Ingests data into the raw layer of Azure Data Lake Storage (ADLS).
-<br> - Azure Databricks: Refines the dataset and stores processed data in ADLS’s transformed layer.
-<br> - Azure Synapse Analytics: Provides data warehousing and in-depth analysis for better insights.
-<br> - Power BI: Visualizes insights, completing the process and offering a comprehensive view of the 2021 Olympics dataset.
+<br> - Starting with raw data, output of a Flask API (developed by me)
+<br> - Azure Data Factory (ADF): Ingests raw data into ADLS and orchestrating pipelines 
+<br> - Azure Databricks: Processing data using complex manipulations and loading the output to ADLS.
+<br> - Azure Synapse Analytics : to create lake database on sink data
+<br> - Power BI: Visualizes insights.
 
-The Data Architecture is next (copyrights to **Kaouthar EL BAKOURI**):
+The Data Architecture is next :
 
-![alt text](images/image.png)
+![alt text](images/data_architecture.png)
+*Schema draw copyrights to **Kaouthar EL BAKOURI** [(medium's source)](https://medium.com/@kwtrelbakouri1/azure-end-to-end-data-engineering-project-harnessing-the-github-student-pack-for-students-and-be61227ccef2)
 
-## Creating a resource group
+## Steps
+
+### Creating a resource group
 
 The first step is to create a resource group, defining its name and region. This resource group serves as a container for organizing and managing related Azure resources efficiently.
 
-![alt text](images/resource_group.png)
+![alt text](images/resourcegroup.png)
 
-## Creating a storage account
+### Creating a storage account
 
 Next, We need to create an Azure Data Lake Storage ADLS (a storage account with namespace hierarchy enabled).
 
-![alt text](images/storage_account.png)
+![alt text](images/adls.png)
 
-Then, a container should be created and  two directories should be added as shown next.
+Then, a container should be created and three directories should be added as shown next : source, sink and temporary.
 
-## Azure Data Factory in action
+![alt text](images/container.png)
 
-ADF is used to ingest raw data to ADLS directory "raw-data". 
+### Azure Data Factory in action
+#### Ingest raw data to ADLS
 
-![alt text](images/adf_1.png)
+ADF is used to ingest raw data to ADLS directory "source", from the project's Github repository. A pipeline was developed for this purpose.
 
-One linked service as source of data was created to access data from the main path ([github repo](https://raw.githubusercontent.com/kaoutharElbakouri/2021-Olympics-in-Tokyo-Data/refs/heads/main/)) and using relative path to get data of each csv file (Athletes.csv as an example).
-<br> And other linked services were created as a sink on ADLS container on directory "raw-data".
+First, we created a HTTP linked service because raw data to ingest is in a Github repo and a ADLS linked service pointing to the container "hqfolder" in ADLS
 
-![alt text](images/adf_2.png)<br> 
+![alt text](images/http_linked_service.png)
 
-Pipelines on ADF workspace are created to ingest data to ADLS.
+![alt text](images/adlslinkedserivce.png)
 
-![alt text](images/adf_3.png)
+Then, we defined 4 datasets in total, 2 datasets (dictionnary and raw_flat_file) with the HTTP linked source and 2 datasets (dict and raw_csv) with the ADLS linked source.
 
-## Data Processing with Databricks
+![alt text](images/datasetshttpsource.png)<br> 
 
-After ingesting data into the raw layer of Azure Data Lake Storage (ADLS), the next step is to process it with Databricks and store the results in the transformed layer of ADLS.
+Finally, we created the pipeline with 2 copy activities and configured them correctly to ingest raw data to source directory on ADLS.
 
-Steps to follow :
+![alt text](images/pipelinecopyrawdatatoadls.png)<br> 
+
+#### Retrieve dimensions attributes from JSON file (raw data)
+
+The JSON file is composed of information inserted by the user of the Flask API. This information contains the structure of the datawarehouse that the user wants to have.
+For more details, please look at the JSON File in the github repo.
+
+Dimensions's details is among this information. The goal here is to have as an output, all the dimensions that are not Date dimensions and their list of attributes.
+For the dimensions that are of type Date, we will process them in the Databricks notebook later.
+
+To do so, we had to develop a Data Flow activity as presented next.
+
+![alt text](images/dataflow.png)<br> 
+
+We used many type of activities : 
+- Source
+- Select
+- Flatten
+- Conditional split
+- Aggregate
+- Sink
+
+The output of this pipeline is written in a JSON file in ADLS, in directory "temporary".
+Next is a view of the output.
+
+![alt text](images/outputtemp.png)<br> 
+
+
+#### Data Processing with Databricks
+
+With raw data in source directory and the JSON file created using the last pipeline, I need to use another tool to do complex transformation. 
+<br>
+<br>In fact, I tried first to only use ADF activites to reach my goal of dynamically selecting specific columns (dynamic parameter) of the data to process but maybe it's not possible in ADF yet.
+<br>
+<br>Because of this, I tried to use an Azure Function app (first time ever) because it's cost-effective and in my case, 
+I don't need to the power of big data processing. But I faced a technical problem (loss of functions created in the app suddenly). I will look at this issue in another time.
+<br>
+<br>I choosed Databricks's notebook at the end and developed all the **dynamic** transformation actions needed for dimensions data and for facts data.
+
+Mainly, the steps to follow  are :
 - Create a Databricks resource
 - Create a compute cluster
 - Allow access to data source on ADLS from Databricks using an App Registration resource and configuring IAM on storage account
 - Create a notebook (connected to the cluster) to process and transform data of the raw layer to the transformed layer on ADLS's container
 - Execute the notebook
 
-![alt text](images/db_2.png)
-*The cluster used of the Databricks resource*
+The code in the notebook will be enhanced and optimized later. For more details, the notebook is available in the repo.
 
-![alt text](images/db_1.png)
-*The notebook to process and transform data*
-## Azure Synapse Analytics for a lake database
+### Orchestration using ADF
 
-Now it's time to use ASA on the csv transformed files to create a lake database (an abstract database) and be able to apply SQL queries on data contained in the flat files and afterwards, to use Power BI.
+We will execute all the data pipelines mentionned above in one orchestrated pipeline using ADF as mentionned next.
 
-![alt text](images/asa.png)
+![alt text](images/mainpipeline.png)
 
-## Power BI for data vizualisation
+Later, with creating a trigger, we can execute the main pipeline.
 
-With Power BI Desktop, we connect to Azure Synapse Analytics and get to the table of the lake database created earlier and start creating dashboards for Business Intelligence matters.
+![alt text](images/mainpipelineExe.png)
 
-![alt text](images/powerbi.png)
+The pipeline execution is succesful. In sink directory, we will have this folders containing data saved in csv format for dimensions and for the fact table.
+
+![alt text](images/sinkfolder.png)
+
+And if we get into one of these folders (factsTable as an example), we will find these files and the part-000*.csv 
+file that contains data for fact table ready to use.
+
+![alt text](images/factsTablefolder.png)
+
+### Azure Synapse Analytics to create lake database
+
+The lake database was created on the files's folders in sink directory, manually. The goal is to automate this part later.
+
+Here, we see external tables created for each file's data in sink directory.
+
+![alt text](images/lakedatabse.png)
+
+### Power BI for data vizualisation
+
+With Power BI Desktop, we connect to Azure Synapse Analytics, specifically to the lake database created earlier.
+
+![alt text](images/connectPowerBi.png)
+
+Then, we need to define the join keys of tables.
+
+![alt text](images/joinkeys.png)
+
+Finally, we can start creating graphics in the dashboard.
+
+![alt text](images/Dashboard.png)
+
