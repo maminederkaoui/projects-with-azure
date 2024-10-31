@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "integrationFactoryv1"
 		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
 		"AzureFunction1_functionKey": {
 			"value": ""
 		},
@@ -16,6 +19,9 @@
 		},
 		"adls2hqfolder_accountKey": {
 			"value": ""
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"value": "1030-100336-f7z8a4uv"
 		},
 		"AzureFunction1_properties_typeProperties_functionAppUrl": {
 			"value": "https://app5integration.azurewebsites.net"
