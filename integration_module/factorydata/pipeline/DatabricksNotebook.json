@@ -1,5 +1,5 @@
 {
-	"name": "transformLoadDatabricks",
+	"name": "DatabricksNotebook",
 	"properties": {
 		"activities": [
 			{

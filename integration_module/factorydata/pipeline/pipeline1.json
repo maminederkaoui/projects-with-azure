@@ -28,6 +28,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "others"
+		},
 		"annotations": []
 	}
 }

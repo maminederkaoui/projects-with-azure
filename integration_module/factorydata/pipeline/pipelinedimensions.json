@@ -139,6 +139,9 @@
 				"type": "Array"
 			}
 		},
+		"folder": {
+			"name": "others"
+		},
 		"annotations": []
 	}
 }

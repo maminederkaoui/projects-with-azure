@@ -1,5 +1,5 @@
 {
-	"name": "getAttributesList",
+	"name": "get attributes list for dimensions",
 	"properties": {
 		"activities": [
 			{
