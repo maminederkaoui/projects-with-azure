@@ -1,0 +1,11 @@
+{
+	"name": "AzureFunction3",
+	"properties": {
+		"annotations": [],
+		"type": "AzureFunction",
+		"typeProperties": {
+			"functionAppUrl": "https://appforintegration.azurewebsites.net",
+			"authentication": "Anonymous"
+		}
+	}
+}

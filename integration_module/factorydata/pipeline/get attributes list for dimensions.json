@@ -1,0 +1,37 @@
+{
+	"name": "get attributes list for dimensions",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data flow dimensions",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflowdimensions",
+						"type": "DataFlowReference"
+					},
+					"integrationRuntime": {
+						"referenceName": "integrationRuntime4cores",
+						"type": "IntegrationRuntimeReference"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"variables": {
+			"attrlists": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
