@@ -1,7 +1,7 @@
 # Tokyo Olympics 2021 data with Azure
 ## Introduction
 
-After I got my Azure Data Engineer Associate certification (DP-203) working with Microsoft learn materials, I need to start working on end-to-end projects to develop my skills with Azure and Data Engineering in whole. 
+After I got my Azure Data Engineer Associate certification (DP-203) working with Microsoft learn materials, I needed to start working on end-to-end projects to develop my skills with Azure and Data Engineering in whole. 
 
 This first project gives an simple example on using many tools availbale on Azure on a set of data related to Tokyo Olympics 2021.
 
